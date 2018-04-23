@@ -1,0 +1,140 @@
+<!--index.wxml-->
+<view class="content" style="background-image:url('http://img4.imgtn.bdimg.com/it/u=3418359459,2015755460&fm=214&gp=0.jpg')">
+    <!-- 点击加号图标或右侧文字跳转切换城市页面  --syt -->
+    <view bindtap="switchCity">
+      <text class="iconfont icon-jiahaob" style='font-size:16px;color:white'></text>  
+      <view class="city" bindinput="reGetWeather">{{locationString}}</view> 
+    </view>
+
+    <!--搜索-->
+    <view class="search-city">
+        <input bindinput="inputing" 
+               placeholder="请输入要搜索的城市名称" 
+               value="{{inputCity}}"></input>
+        <button type="primary" size="mini" bindtap="bindSearch">快速查询</button>
+    </view>
+
+    <!-- 显示实时气温  syt-->
+    <view>
+      <view class="currentTemp"><text>{{currentTemp}}</text></view>
+      <view class='weatherDesc'><text>{{weatherDesc}}</text></view>
+      <image src='../../img/audioPlay.png' class='audioPlay' bindtap="audioPlay"></image>
+    </view>
+
+    <!-- 语音播报当天天气信息  syt-->
+     <audio 
+        src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=2&text={{playCurrentTemp}}" 
+        id="myAudio" controls="controls"></audio> 
+    
+    <!-- 显示当天的天气情况 -->
+    <!-- <view class="info"> -->
+        <!--城市名称-->
+        <!-- <view class="dingwei">{{weatherData.currentCity}} {{weatherData.date}}</view> -
+        <!--当天最低到最高温度-->
+        <!-- <view class="temp">{{today.tmp_min}}~{{today.tmp_max}}℃</view>  -->
+    <!-- </view> -->
+
+    <!-- 显示今明两天的天气情况  syt-->
+    <view class="todayAndTomorrow">
+      <view class="today">
+        <view class='dayWeather'>
+          <text class='day'>今天</text>
+          <text class="maxAndMin">{{today.tmp_max}}/{{today.tmp_min}}℃</text>
+        </view>
+      </view>
+      <view class='separate'></view>
+      <view class="tomorrow">
+        <view class='dayWeather'>
+          <text class='day'>明天</text>
+          <text class="maxAndMin">{{tomorrow.tmp_max}}/{{tomorrow.tmp_min}}℃</text>
+        </view>
+      </view>
+    </view>
+
+    <!--显示今天的天气信息-->
+    <!-- <view class="today"> -->
+        <!-- <view class="detail"> -->
+            <!-- <text class="today-title">今天</text> -->
+        <!-- </view> -->
+        <!-- <view class="detail">日期：{{today.date}}</view> -->
+        <!-- <view class="detail">日出时间：{{today.sr}}日落时间：{{today.ss}}</view> -->
+        <!-- <view class="detail">月升时间：{{today.mr}}月落时间:{{today.ms}}</view> -->
+    <!-- </view> -->
+
+    <!--最近三天天气情况-->
+    <view class="forecast">
+        <view class="every-day">
+
+            <!--日期-->
+            <view class="detail date">{{today.date}}</view>
+            <!--白天天气情况描述-->
+            <view class="detail">白天：{{today.cond_txt_d}}</view>
+            <!--晚上天气情况描述-->
+            <view class="detail">晚上：{{today.cond_txt_d}}</view>
+            <!--风向-->
+            <view class="detail">风向：{{today.wind_dir}}</view>
+            <!--风速-->
+            <view class="detail">风速：{{today.wind_spd}}km/h</view>
+            <!--湿度-->
+            <view class="detail">湿度：{{today.hum}}</view>
+            <!--降水概率-->
+            <view class="detail">降水概率：{{today.pop}}</view>
+            <!--紫外线强度指数-->
+            <view class="detail">紫外线强度：{{today.uv_index}}</view>
+        </view>
+        <view class="every-day">
+            <!--日期-->
+            <view class="detail date">{{tomorrow.date}}</view>
+            <!--白天天气情况描述-->
+            <view class="detail">白天：{{tomorrow.cond_txt_d}}</view>
+            <!--晚上天气情况描述-->
+            <view class="detail">晚上：{{tomorrow.cond_txt_d}}</view>
+            <!--风向-->
+            <view class="detail">风向：{{tomorrow.wind_dir}}</view>
+            <!--风速-->
+            <view class="detail">风速：{{tomorrow.wind_spd}}km/h</view>
+            <!--湿度-->
+            <view class="detail">湿度：{{tomorrow.hum}}</view>
+            <!--降水概率-->
+            <view class="detail">降水概率：{{tomorrow.pop}}</view>
+            <!--紫外线强度指数-->
+            <view class="detail">紫外线强度：{{tomorrow.uv_index}}</view>
+        </view>
+        <view class="every-day">
+            <!--日期-->
+            <view class="detail date">{{afterTomor.date}}</view>
+            <!--白天天气情况描述-->
+            <view class="detail">白天：{{afterTomor.cond_txt_d}}</view>
+            <!--晚上天气情况描述-->
+            <view class="detail">晚上：{{afterTomor.cond_txt_d}}</view>
+            <!--风向-->
+            <view class="detail">风向：{{afterTomor.wind_dir}}</view>
+            <!--风速-->
+            <view class="detail">风速：{{afterTomor.wind_spd}}km/h</view>
+            <!--湿度-->
+            <view class="detail">湿度：{{afterTomor.hum}}</view>
+            <!--降水概率-->
+            <view class="detail">降水概率：{{afterTomor.pop}}</view>
+            <!--紫外线强度指数-->
+            <view class="detail">紫外线强度：{{afterTomor.uv_index}}</view>
+        </view>
+    </view>
+
+    <!-- 生活指数九宫格布局   syt-->
+    <view class="container">  
+      <view class='lifeTitle'><text>生活指数</text></view>
+      <view class="weui-grids">  
+        <view class="weui-grid" wx:for="{{routers}}" wx:key="name">  
+          <navigator url="{{item.url}}">  
+            <view class="weui-grid__icon">  
+              <image src=" {{item.icon}}" mode="scaleToFill" />  
+            </view>  
+            <text class="weui-grid__value">{{item.value}}</text>
+            <text class="weui-grid__label">{{item.name}}</text>  
+          </navigator>  
+        </view>  
+      </view>  
+    </view>  
+    
+</view>
+

@@ -1,0 +1,14 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/chart/chart",
+    "pages/logs/logs",
+    "pages/switchCity/switchCity"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "微天气",
+    "navigationBarTextStyle":"black"
+  }
+}
